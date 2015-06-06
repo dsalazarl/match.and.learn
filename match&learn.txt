@@ -1,0 +1,5 @@
+2 botones 
+c/u con 1 color pastel random
+ambos con la misma funcion
+
+puntaje en pantalla

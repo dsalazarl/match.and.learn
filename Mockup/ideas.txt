@@ -1,0 +1,42 @@
+----------------------------------------------INTERFAZ-------------------------------------------------
+[MAIN]
+una pantalla de bienvenida, con:
+-nombre de la app (y banner publicidad)
+-historial de juegos (also, posible ranking dentro de los amigos que usan la app también <facebook>)
+-configuraciones (con audio o sin, con vibraciones o no, etc)
+-jugar
+
+[layout jugar]
+una pantalla llamativa, ojalá con animaciones (simples) y sonido de fondo que presente 3 modos de juego:
+-infinite run (jugar hasta equivocarse)
+-relax mode (jugar sin tiempo, pero con máximo 3 respondidas incorrectas)
+-challenge mode (mayor cantidad de respuestas correctas en 1 minuto)
+	[layout jugar](luego de elegir modo de juego)
+	elegir entre 2 opciones:
+	-elegir categoría/temática de las tarjetas (con el fin de aprender más de eso)
+	-temática libre (que venga lo que aparezca)
+
+[layout historial]
+una pantalla con 3 opciones de historial:
+-mejores partidas personales y duelos (multiplayer, idea de Jony)
+-ranking amigos de fb
+-ranking mundial
+
+[layout configuraciones]
+-idioma
+-música ON/OFF (sin copy-rights)
+-vibración ON/OFF
+-i (informaciones de cómo jugar)
+
+-----------------------------------------------JUEGO---------------------------------------------------
+
+tarjetas serán dispuesta de distinta forma, variando por cada juego (aleatoriamente):
+-4 tarjetas en forma de cuadrado ocupando casi toda la pantalla (con pregunta ej: capital de x país y elegir la tarjeta correcta)
+-memorice (16 tarjeta que se muestran por 4 segundos y luego "se dan vuelta"(se ocultan) y hay que hacer match estilo memorice 
+-2 tarjeta para respuesta rápida (1 pregunta, debajo dos opciones de tarjeta, debajo bonton rojo para indicar match incorecto y verde caso contrario)
+-pelotas que vayan apareciendo en la pantalla, rebotando y que haya que seleccionar una y hacerle match
+
+[CON TIEMPO]
+-podría ser un reloj análogo que vaya llenándose (cambiando de color) a medida que pasa el tiempo o podría ser reloj digital
+-música va intensificándose a medida que va corriendo el tiempo
+

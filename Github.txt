@@ -1,0 +1,56 @@
+https://github.com/dsalazarl/match-learn
+
+https://github.com
+dsalazarl93
+dvlazo@hotmail.com
+moteiver234
+
+
+
+Comandos en 'Terminal'
+git
+git status
+
+git pull <actualizar lo que han hecho> (si he hecho modificaciones antes, me pedirá hacer commit, luego podré hacer pull)
+
+para subir lo que yo he hecho
+git add .
+git commit -m "mis avances"
+git remote -v
+git push
+
+
+---------------------------------------------
+Mi amigo y yo editamos. el sube sus cambios y me avisa 
+(si no me avisa, me daré cuenta por el error que me 
+arroje al intentar subir mis cambios). Para subir los 
+mios debo proceder como sigue:
+
+git commit -m "<nombre>"     (puede ser que este paso sea optativo)
+git pull
+git add .
+git commit -m "<nombre>"
+git remote -v
+git push
+
+--------------------------------------------------------
+para hacer un branch normal
+
+(teniendo actualizada la ultima version?)
+git checkout -b "<branch_name>"  (inicializa el branch)
+git push origin "<branch_name>"  (finaliza TU branch) (no actualiza a todos tu branch)
+git checkout "<branch_name_destination>"      (nombre al cual quieres colgar tu branch)
+git merge "<branch_name>"    (nombre de tu branch)
+git branch -d "<branch_name>"  (elimina tu branch para que no quede en el limbo)
+
+hacer un push completo
+git add .
+git commit -m "<nombre>"
+git remote -v
+git push
+
+
+
+
+
+

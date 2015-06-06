@@ -1,0 +1,13 @@
+[Diseño en Beta]
+Como me había gustado mucho la idea de Jony Taivo de que existiera un estilo de temporizador 
+dentro del juego se me ocurrió agregárselo al juego que les había propuesto sobre ir disparándole 
+a los problemas con los números.
+
+Entonces el juego al final consiste en ir acertando con el numero correspondiente a cada problema 
+durante 1 min. A medida que se van respondiendo las preguntas estas van cambiando (independiente si 
+acierta o no). De esta manera cuando uno acierta el tiempo se detiene por 3 seg (u otra cantidad) y 
+si es incorrecta se le suman 3 seg. Al final del tiempo se le muestra la cantidad de puntos que acumuló
+y se guarda en el ranking.
+
+cuando el número impacte a a la alternativa que eligió el jugador, desaparezcan ambos y a un lado de
+la explosión aparezca -3s en verde y +3s en rojo (que se vea por 1 segundo)
