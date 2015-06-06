@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:textSize="@dimen/textSize_barraSup" />
+        android:textSize="@dimen/textSize_barraSup_land" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -27,7 +27,7 @@
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/text_str_puntaje"
         android:layout_toEndOf="@+id/text_str_puntaje"
-        android:textSize="@dimen/textSize_barraSup" />
+        android:textSize="@dimen/textSize_barraSup_land" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -38,7 +38,7 @@
         android:layout_alignParentTop="true"
         android:layout_toLeftOf="@+id/text_val_tiempo"
         android:layout_toStartOf="@+id/text_val_tiempo"
-        android:textSize="@dimen/textSize_barraSup" />
+        android:textSize="@dimen/textSize_barraSup_land" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -49,31 +49,31 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
-        android:textSize="@dimen/textSize_barraSup" />
+        android:textSize="@dimen/textSize_barraSup_land" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/height_btn"
+        android:layout_height="@dimen/height_btn_land"
         android:text="@string/str_boton_superior"
         android:id="@+id/btn_superior"
-        android:layout_below="@+id/text_str_puntaje"
+        android:textSize="@dimen/textSize_btn_land"
+        android:layout_above="@+id/btn_inferior"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/text_val_tiempo"
-        android:layout_alignEnd="@+id/text_val_tiempo"
-        android:textSize="@dimen/textSize_btn" />
+        android:layout_alignRight="@+id/btn_inferior"
+        android:layout_alignEnd="@+id/btn_inferior" />
 
     <Button
         android:layout_width="wrap_content"
-        android:layout_height="@dimen/height_btn"
+        android:layout_height="@dimen/height_btn_land"
         android:text="@string/str_boton_inferior"
         android:id="@+id/btn_inferior"
-        android:layout_below="@+id/btn_superior"
+        android:textSize="@dimen/textSize_btn_land"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/btn_superior"
-        android:layout_alignEnd="@+id/btn_superior"
-        android:textSize="@dimen/textSize_btn" />
+        android:layout_alignParentStart="true" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -81,9 +81,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/app_name"
         android:id="@+id/textView"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:textSize="25dp"
-        android:textColor="#ff2800a2" />
+        android:textSize="20dp"
+        android:textColor="#ff2800a2"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true" />
 
 </RelativeLayout>
