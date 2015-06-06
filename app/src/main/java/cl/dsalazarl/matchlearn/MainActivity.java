@@ -4,16 +4,28 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import java.util.Random;
 
 
 public class MainActivity extends ActionBarActivity {
 
+    Button topButton, bottomButton;
+    TargetMatch target;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        topButton = (Button) findViewById(R.id.btn_superior);
+        bottomButton = (Button) findViewById(R.id.btn_inferior);
+        target = new TargetMatch();
+        topButton.setText(target.question);
+        bottomButton.setText(target.answer);
+        topButton.setBackgroundColor(target.color1);
+        bottomButton.setBackgroundColor(target.color2);
+
     }
 
 
@@ -53,8 +65,6 @@ public class MainActivity extends ActionBarActivity {
             int dividendo = (int)(Math.random()*20+divisor);
             this.question = dividendo+":"+divisor;
             int cuociente, resto;
-//            int cuociente_correct = dividendo/divisor;
-//            int resto = dividendo-divisor*cuociente_correct;
             double random = Math.random();
             if(random<=0.8 && random >=0.2){
                 cuociente = dividendo/divisor;
