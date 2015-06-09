@@ -1,10 +1,12 @@
 package cl.dsalazarl.matchlearn;
 
+import android.graphics.Typeface;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.TextView;
 
 import java.util.Random;
 
@@ -13,6 +15,12 @@ public class MainActivity extends ActionBarActivity {
 
     Button topButton, bottomButton;
     TargetMatch target;
+
+    TextView StrPuntaje;
+    TextView ValPuntaje;
+    TextView StrTiempo;
+    TextView ValTiempo;
+    TextView NombreApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +33,19 @@ public class MainActivity extends ActionBarActivity {
         bottomButton.setText(target.answer);
         topButton.setBackgroundColor(target.color1);
         bottomButton.setBackgroundColor(target.color2);
+        //fonts
+        StrPuntaje= (TextView) findViewById(R.id.text_str_puntaje);
+        ValPuntaje= (TextView) findViewById(R.id.text_val_puntaje);
+        StrTiempo= (TextView) findViewById(R.id.text_str_tiempo);
+        ValTiempo= (TextView) findViewById(R.id.text_val_tiempo);
+        NombreApp= (TextView) findViewById(R.id.text_nombre_app);
+        Typeface HelveticaNormal= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLight.otf");
+        Typeface HelveticaItalica= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLightItal.otf");
+        StrPuntaje.setTypeface(HelveticaNormal);
+        ValPuntaje.setTypeface(HelveticaNormal);
+        StrTiempo.setTypeface(HelveticaNormal);
+        ValTiempo.setTypeface(HelveticaNormal);
+        NombreApp.setTypeface(HelveticaItalica);
 
     }
 
@@ -63,7 +84,7 @@ public class MainActivity extends ActionBarActivity {
             color2 = generateRandomColor(false);
             int divisor = (int)(Math.random()*12+1);
             int dividendo = (int)(Math.random()*20+divisor);
-            this.question = dividendo+":"+divisor;
+            this.question = dividendo+"\u00F7"+divisor; // "\u00F7" es el simbolo clasico de division (Unicode value)
             int cuociente, resto;
             double random = Math.random();
             if(random<=0.8 && random >=0.2){

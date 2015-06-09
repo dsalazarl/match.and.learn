@@ -5,9 +5,9 @@
     //Vista en Portrait
     <dimen name="height_btn">240dp</dimen>
     <dimen name="textSize_btn">60dp</dimen>
-    <dimen name="textSize_barraSup">18dp</dimen>
+    <dimen name="textSize_barraSup">20dp</dimen>
     //Vista en Landscape
     <dimen name="height_btn_land">140dp</dimen>
     <dimen name="textSize_btn_land">40dp</dimen>
-    <dimen name="textSize_barraSup_land">18dp</dimen>
+    <dimen name="textSize_barraSup_land">20dp</dimen>
 </resources>
