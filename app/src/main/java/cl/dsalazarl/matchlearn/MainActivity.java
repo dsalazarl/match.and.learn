@@ -3,18 +3,24 @@ package cl.dsalazarl.matchlearn;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.res.Configuration;
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.os.CountDownTimer;
 import android.os.PersistableBundle;
+import android.preference.DialogPreference;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -26,9 +32,13 @@ public class MainActivity extends ActionBarActivity {
     TextView ValTiempo;
     TextView NombreApp;
 
-    String saveTopText, saveBottomText;
-    int saveTopColor, saveBottomColor;
+    String saveTopText, saveBottomText, saveValPuntajeText;
+    int saveTopColor, saveBottomColor, saveValPuntajeColor;
     Boolean RespuestaCorrecta;
+
+    int score, TimePreviousTarget;
+    private MediaPlayer sonidoCorrecto, sonidoIncorrecto;
+    //T CounterClass timer3sec;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,23 +46,34 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         topButton = (Button) findViewById(R.id.btn_superior);
         bottomButton = (Button) findViewById(R.id.btn_inferior);
+
+        StrPuntaje= (TextView) findViewById(R.id.text_str_puntaje);
+        ValPuntaje= (TextView) findViewById(R.id.text_val_puntaje);
+        StrTiempo= (TextView) findViewById(R.id.text_str_tiempo);
+        ValTiempo= (TextView) findViewById(R.id.text_val_tiempo);
+        NombreApp= (TextView) findViewById(R.id.text_nombre_app);
+
+        score=0;
+        TimePreviousTarget=0;
+        sonidoCorrecto=MediaPlayer.create(MainActivity.this, R.raw.sonido_correcto);
+        sonidoIncorrecto=MediaPlayer.create(this, R.raw.sonido_incorrecto);
+
         //obtener nueva targeta
         target = new TargetMatch();
         //parametros para metodos onSaveInstanceState() y onRestoreInstanceState()
         saveTopColor=target.color1;
         saveBottomColor=target.color2;
         RespuestaCorrecta=target.correct;
-        //propiedades de botones
+        //propiedades definidas
         topButton.setText(target.question);
         bottomButton.setText(target.answer);
         topButton.setBackgroundColor(target.color1);
         bottomButton.setBackgroundColor(target.color2);
+
+        ValPuntaje.setText(" "+score+" pts.");
+        ValTiempo.setText(" 1 minuto");
+        //T timer3sec = new CounterClass(3000, 1000);//1 minuto y cuanto avanza (en milisegundos) 59999
         //fuentes
-        StrPuntaje= (TextView) findViewById(R.id.text_str_puntaje);
-        ValPuntaje= (TextView) findViewById(R.id.text_val_puntaje);
-        StrTiempo= (TextView) findViewById(R.id.text_str_tiempo);
-        ValTiempo= (TextView) findViewById(R.id.text_val_tiempo);
-        NombreApp= (TextView) findViewById(R.id.text_nombre_app);
         Typeface HelveticaNormal= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLight.otf");
         Typeface HelveticaItalica= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLightItal.otf");
         StrPuntaje.setTypeface(HelveticaNormal);
@@ -61,19 +82,58 @@ public class MainActivity extends ActionBarActivity {
         ValTiempo.setTypeface(HelveticaNormal);
         NombreApp.setTypeface(HelveticaItalica);
     }
+
+    //lo siguiente es para el DialogAlert que diga instrucciones y boton Entendido, que el boton ejecute el timer.start
+    //topButton.setOnClickListener(new View.OnClickListener() {
+    //
+    //    @Override
+    //    public void onClick(View v) {
+    //        timer.start();
+    //    }
+    //});
+
+    public void targetCheck (View view){
+        if(RespuestaCorrecta==true){
+            sonidoCorrecto.start();
+            score+=5;
+            ValPuntaje.setTextColor(Color.parseColor("#FF00A20E"));
+        }
+        else if(RespuestaCorrecta==false){
+            sonidoIncorrecto.start();
+            score-=3;
+            ValPuntaje.setTextColor(Color.RED);
+        }
+        ValPuntaje.setText(" "+score+" pts.");
+        //renovar tarjeta y aquellos que usan sus atributos
+        target= new TargetMatch();
+        topButton.setText(target.question);
+        bottomButton.setText(target.answer);
+        topButton.setBackgroundColor(target.color1);
+        bottomButton.setBackgroundColor(target.color2);
+        saveTopColor=target.color1;
+        saveBottomColor=target.color2;
+        RespuestaCorrecta=target.correct;
+        //T timer3sec.start();
+    }
+
     //para que al cambiar la orientacion del dispositivo, los valores no se reseteen
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        //obtener Strings a guardar
+        //obtener valores a guardar
         saveTopText= topButton.getText().toString();
         saveBottomText=bottomButton.getText().toString();
+        saveValPuntajeText=ValPuntaje.getText().toString();
+        saveValPuntajeColor=ValPuntaje.getCurrentTextColor();
         //guardar valores
         outState.putString("pregunta", saveTopText);
         outState.putString("respuesta", saveBottomText);
         outState.putInt("colorido1", saveTopColor);
         outState.putInt("colorido2", saveBottomColor);
-        outState.putBoolean("correcto", RespuestaCorrecta);        //falta definir que hacer con target.correct
+        outState.putString("txt_puntaje", saveValPuntajeText);
+        outState.putInt("color_puntaje", saveValPuntajeColor);
+        outState.putInt("score", score);
+        outState.putBoolean("correcto", RespuestaCorrecta);
     }
 
     @Override
@@ -82,12 +142,15 @@ public class MainActivity extends ActionBarActivity {
         //texto
         topButton.setText(savedInstanceState.getString("pregunta"));
         bottomButton.setText(savedInstanceState.getString("respuesta"));
+        ValPuntaje.setText(savedInstanceState.getString("txt_puntaje"));
         //colores
         saveTopColor=savedInstanceState.getInt("colorido1");
         saveBottomColor=savedInstanceState.getInt("colorido2");
         topButton.setBackgroundColor(saveTopColor);
         bottomButton.setBackgroundColor(saveBottomColor);
-        //falta definir que hacer con target.correct
+        ValPuntaje.setTextColor(savedInstanceState.getInt("color_puntaje"));
+        //puntaje
+        score=savedInstanceState.getInt("score");
     }
 
     @Override
@@ -171,20 +234,79 @@ public class MainActivity extends ActionBarActivity {
         }
 
     }
-    //DialogAlert para confirmar salida del juego. Para mejorarlo, usar DialogFragment
+
+
+    //Inclusión de tiempo. Actualmente lo que hace es contar 3 segundos y luego verifica las tarjetas y las renueva
+    //Necesitamos poner 2 tiempos, el visible que solo cuente 1 minutos atrás hasta que termine el juego y muestre en
+    //un nuevo DialogAlert el puntaje final obtenido y opción para comenzar denuevo. El segundo tiempo debe hacer lo que
+    //hace esta clase CounterClass como la tengo definida. De hecho podría hacerse con un solo tiempo, con una variable
+    //que guarde el segundo en que se respondió la última tarjeta y lo compare con el tiempo actual, si esa diferencia
+    //es igual a 3000 (3segundos) verifique las tarjetas. Me he complicado harto con lo de los tiempos, ojalá alguien
+    //pueda hacerlo.
+    //quiten los "//" a lo que sigue para ver qué es lo que hace el CounterClass que alcancé a definir y recordar quitarle
+    //los "//" a las partes que lo necesitan en el resto del código. lo sabrán porque viene así: "//T " y luego el cogido
+    //la T es por tiempo.
+    //public class CounterClass extends CountDownTimer {
+    //
+    //    public CounterClass(long millisInFuture, long countDownInterval) {
+    //        super(millisInFuture, countDownInterval);
+    //    }
+    //
+    //    @Override
+    //    public void onTick(long millisUntilFinished) {
+    //        String Seg = String.format("%02d",
+    //                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+    //        System.out.println(Seg);
+    //        ValTiempo.setText(" "+Seg+" seg.");
+    //
+    //    }
+    //
+    //    @Override
+    //    public void onFinish() {
+    //        if(RespuestaCorrecta==true){
+    //            sonidoCorrecto.start();
+    //            score+=5;
+    //            ValPuntaje.setTextColor(Color.parseColor("#FF00A20E"));
+    //        }
+    //        else if(RespuestaCorrecta==false){
+    //            sonidoIncorrecto.start();
+    //            score-=3;
+    //            ValPuntaje.setTextColor(Color.RED);
+    //        }
+    //        ValPuntaje.setText(" "+score+" pts.");
+    //        //renovar tarjeta y aquellos que usan sus atributos
+    //        target= new TargetMatch();
+    //        topButton.setText(target.question);
+    //        bottomButton.setText(target.answer);
+    //        topButton.setBackgroundColor(target.color1);
+    //        bottomButton.setBackgroundColor(target.color2);
+    //        saveTopColor=target.color1;
+    //        saveBottomColor=target.color2;
+    //        RespuestaCorrecta=target.correct;
+    //        timer3sec.start();
+    //    }
+    //}
+
+    //DialogAlert para pausa/confirmar salida del juego. Para mejorarlo, usar DialogFragment
     @Override
     public void onBackPressed() {
+        //T timer3sec.cancel();
         new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                 .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Salida")
+                .setTitle("Juego Pausado")
                 .setMessage("¿Seguro que quieres salir de este asombroso juego?")
                 .setCancelable(false)
-                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         MainActivity.this.finish();
                     }
                 })
-                .setNegativeButton("No", null)
+                .setNegativeButton("Continuar", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //T timer3sec.start();
+                    }
+                })
                 .show();
     }
 }
