@@ -2,11 +2,11 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
-    //Vista en Portrait
+    <!--Vista en Portrait-->
     <dimen name="height_btn">240dp</dimen>
     <dimen name="textSize_btn">60dp</dimen>
     <dimen name="textSize_barraSup">20dp</dimen>
-    //Vista en Landscape
+    <!--Vista en Landscape-->
     <dimen name="height_btn_land">140dp</dimen>
     <dimen name="textSize_btn_land">40dp</dimen>
     <dimen name="textSize_barraSup_land">20dp</dimen>

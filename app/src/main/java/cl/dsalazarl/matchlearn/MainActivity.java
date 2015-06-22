@@ -1,26 +1,34 @@
 package cl.dsalazarl.matchlearn;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
+import android.os.PersistableBundle;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
-
+import android.widget.Toast;
 import java.util.Random;
-
 
 public class MainActivity extends ActionBarActivity {
 
     Button topButton, bottomButton;
     TargetMatch target;
-
     TextView StrPuntaje;
     TextView ValPuntaje;
     TextView StrTiempo;
     TextView ValTiempo;
     TextView NombreApp;
+
+    String saveTopText, saveBottomText;
+    int saveTopColor, saveBottomColor;
+    Boolean RespuestaCorrecta;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,12 +36,18 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         topButton = (Button) findViewById(R.id.btn_superior);
         bottomButton = (Button) findViewById(R.id.btn_inferior);
+        //obtener nueva targeta
         target = new TargetMatch();
+        //parametros para metodos onSaveInstanceState() y onRestoreInstanceState()
+        saveTopColor=target.color1;
+        saveBottomColor=target.color2;
+        RespuestaCorrecta=target.correct;
+        //propiedades de botones
         topButton.setText(target.question);
         bottomButton.setText(target.answer);
         topButton.setBackgroundColor(target.color1);
         bottomButton.setBackgroundColor(target.color2);
-        //fonts
+        //fuentes
         StrPuntaje= (TextView) findViewById(R.id.text_str_puntaje);
         ValPuntaje= (TextView) findViewById(R.id.text_val_puntaje);
         StrTiempo= (TextView) findViewById(R.id.text_str_tiempo);
@@ -46,9 +60,35 @@ public class MainActivity extends ActionBarActivity {
         StrTiempo.setTypeface(HelveticaNormal);
         ValTiempo.setTypeface(HelveticaNormal);
         NombreApp.setTypeface(HelveticaItalica);
-
+    }
+    //para que al cambiar la orientacion del dispositivo, los valores no se reseteen
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        //obtener Strings a guardar
+        saveTopText= topButton.getText().toString();
+        saveBottomText=bottomButton.getText().toString();
+        //guardar valores
+        outState.putString("pregunta", saveTopText);
+        outState.putString("respuesta", saveBottomText);
+        outState.putInt("colorido1", saveTopColor);
+        outState.putInt("colorido2", saveBottomColor);
+        outState.putBoolean("correcto", RespuestaCorrecta);        //falta definir que hacer con target.correct
     }
 
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        //texto
+        topButton.setText(savedInstanceState.getString("pregunta"));
+        bottomButton.setText(savedInstanceState.getString("respuesta"));
+        //colores
+        saveTopColor=savedInstanceState.getInt("colorido1");
+        saveBottomColor=savedInstanceState.getInt("colorido2");
+        topButton.setBackgroundColor(saveTopColor);
+        bottomButton.setBackgroundColor(saveBottomColor);
+        //falta definir que hacer con target.correct
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -130,5 +170,21 @@ public class MainActivity extends ActionBarActivity {
             return color;
         }
 
+    }
+    //DialogAlert para confirmar salida del juego. Para mejorarlo, usar DialogFragment
+    @Override
+    public void onBackPressed() {
+        new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setTitle("Salida")
+                .setMessage("¿Seguro que quieres salir de este asombroso juego?")
+                .setCancelable(false)
+                .setPositiveButton("Sí", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        MainActivity.this.finish();
+                    }
+                })
+                .setNegativeButton("No", null)
+                .show();
     }
 }

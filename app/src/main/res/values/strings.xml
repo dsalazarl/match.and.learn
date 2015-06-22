@@ -1,13 +1,13 @@
 <resources>
     <string name="app_name">Match &amp; Learn</string>
-    //barra informativa
+    <!--barra informativa-->
     <string name="str_puntaje">Puntaje</string>
     <string name="val_puntaje">:    4324 pts</string>
     <string name="str_tiempo">Tiempo</string>
     <string name="val_tiempo">:    00:45:78</string>
-    //botones
-    <string name="str_boton_superior">16 * 40 =</string>
-    <string name="str_boton_inferior">8435</string>
+    <!-- botones-->
+    <string name="str_boton_superior">16 \u00F7 5</string> <!--simbolo division-->
+    <string name="str_boton_inferior">3 con resto 1</string>
     <string name="matchandlearn">Match and Learn</string>
     <string name="action_settings">Settings</string>
 </resources>
