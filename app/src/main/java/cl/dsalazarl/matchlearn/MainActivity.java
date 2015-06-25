@@ -2,25 +2,18 @@ package cl.dsalazarl.matchlearn;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
-import android.os.CountDownTimer;
-import android.os.PersistableBundle;
-import android.preference.DialogPreference;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import java.util.Random;
-import java.util.concurrent.TimeUnit;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -286,6 +279,37 @@ public class MainActivity extends ActionBarActivity {
     //        timer3sec.start();
     //    }
     //}
+
+
+    //detector de double tap. sigle tap para correcto y double tap para incorrecto
+    //int i = 0;
+    //btn.setOnClickListener(new OnClickListener() {
+    //
+    //    @Override
+    //    public void onClick(View v) {
+    //        // TODO Auto-generated method stub
+    //        i++;
+    //        Handler handler = new Handler();
+    //        Runnable r = new Runnable() {
+    //
+    //            @Override
+    //            public void run() {
+    //                i = 0;
+    //            }
+    //        };
+    //
+    //        if (i == 1) {
+    //            //Single click
+    //            handler.postDelayed(r, 250);
+    //        } else if (i == 2) {
+    //            //Double click
+    //            i = 0;
+    //            ShowDailog();
+    //        }
+    //
+    //
+    //    }
+    //});
 
     //DialogAlert para pausa/confirmar salida del juego. Para mejorarlo, usar DialogFragment
     @Override
