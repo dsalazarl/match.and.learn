@@ -18,6 +18,7 @@ import android.widget.TextView;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
+
 public class MainActivity extends ActionBarActivity {
 
     Button topButton, bottomButton, correctButton, incorrectButton;
@@ -28,13 +29,13 @@ public class MainActivity extends ActionBarActivity {
     TextView ValTiempo;
     TextView NombreApp;
 
-    String saveTopText, saveBottomText, saveValPuntajeText;
+    String saveTopText, saveBottomText, saveValPuntajeText, saveValTiempo;
     int saveTopColor, saveBottomColor, saveValPuntajeColor;
     Boolean RespuestaCorrecta;
 
     int score;
     private MediaPlayer sonidoCorrecto, sonidoIncorrecto, sonidoFinal;
-    CounterClass timer;
+    CountDownTimerWithPause timer;
     final Context context = this;
 
     @Override
@@ -72,7 +73,62 @@ public class MainActivity extends ActionBarActivity {
 
         ValPuntaje.setText(" "+score+" pts.");
         ValTiempo.setText(" 1 minuto");
-        timer = new CounterClass(59999, 1000);//1 minuto y cuanto avanza (en milisegundos) 59999
+        timer = new CountDownTimerWithPause(59999, 1000, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String Seg = String.format("%02d",
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+                System.out.println(Seg);
+                ValTiempo.setText(" "+Seg+" seg.");
+            }
+
+            @Override
+            public void onFinish() {
+                topButton.setVisibility(View.INVISIBLE);
+                bottomButton.setVisibility(View.INVISIBLE);
+                incorrectButton.setVisibility(View.INVISIBLE);
+                correctButton.setVisibility(View.INVISIBLE);
+                sonidoFinal.start();
+                ValTiempo.setText("- -");
+                ValTiempo.setTextColor(Color.RED);
+                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Juego Terminado")
+                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                        .setCancelable(false)
+                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                timer.cancel();
+                                MainActivity.this.finish();
+                            }
+                        })
+                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                score = 0;
+                                ValPuntaje.setText(" "+score+" pts.");
+                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                topButton.setVisibility(View.VISIBLE);
+                                bottomButton.setVisibility(View.VISIBLE);
+                                incorrectButton.setVisibility(View.VISIBLE);
+                                correctButton.setVisibility(View.VISIBLE);
+                                //renovar tarjeta y aquellos que usan sus atributos
+                                target= new TargetMatch();
+                                topButton.setText(target.question);
+                                bottomButton.setText(target.answer);
+                                topButton.setBackgroundColor(target.color1);
+                                bottomButton.setBackgroundColor(target.color2);
+                                saveTopColor=target.color1;
+                                saveBottomColor=target.color2;
+                                RespuestaCorrecta=target.correct;
+                                timer.create();
+                            }
+                        })
+                        .show();
+            }
+        };
+
         //fuentes
         Typeface HelveticaNormal= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLight.otf");
         Typeface HelveticaItalica= Typeface.createFromAsset(getAssets(),"fonts/HelveticaNeue-UltraLightItal.otf");
@@ -81,20 +137,22 @@ public class MainActivity extends ActionBarActivity {
         StrTiempo.setTypeface(HelveticaNormal);
         ValTiempo.setTypeface(HelveticaNormal);
         NombreApp.setTypeface(HelveticaItalica);
+        System.out.print("hola");
         //inicio visual para el usuario. El problema es que al cambiar orientacion mientras se juega,
         // esto comienza denuevo (incluso sin terminar el conteo y lo que eso conlleva.
-        new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .setTitle("Instrucciones")
-                .setMessage("Presione el boton verde para indicar un match correcto o el boton rojo para indicar un match incorrecto")
-                .setCancelable(false)
-                .setNegativeButton("Comenzar", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        timer.start();
-                    }
-                })
-                .show();
+        //new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+        //        .setIcon(android.R.drawable.ic_dialog_alert)
+        //        .setTitle("Instrucciones")
+        //        .setMessage("Presione el boton verde para indicar un match correcto o el boton rojo para indicar un match incorrecto")
+        //        .setCancelable(false)
+        //        .setNegativeButton("Comenzar", new DialogInterface.OnClickListener() {
+        //            @Override
+        //            public void onClick(DialogInterface dialog, int which) {
+
+                        timer.create();
+        //            }
+        //        })
+        //        .show();
     }
 
     public void targetCheckR (View view){
@@ -151,6 +209,7 @@ public class MainActivity extends ActionBarActivity {
         saveBottomText=bottomButton.getText().toString();
         saveValPuntajeText=ValPuntaje.getText().toString();
         saveValPuntajeColor=ValPuntaje.getCurrentTextColor();
+        saveValTiempo = ValTiempo.getText().toString();
         //guardar valores
         outState.putString("pregunta", saveTopText);
         outState.putString("respuesta", saveBottomText);
@@ -159,12 +218,14 @@ public class MainActivity extends ActionBarActivity {
         outState.putString("txt_puntaje", saveValPuntajeText);
         outState.putInt("color_puntaje", saveValPuntajeColor);
         outState.putInt("score", score);
+        outState.putString("time", saveValTiempo);
         outState.putBoolean("correcto", RespuestaCorrecta);
         timer.cancel();
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        timer.cancel();
         super.onRestoreInstanceState(savedInstanceState);
         //texto
         topButton.setText(savedInstanceState.getString("pregunta"));
@@ -178,6 +239,120 @@ public class MainActivity extends ActionBarActivity {
         ValPuntaje.setTextColor(savedInstanceState.getInt("color_puntaje"));
         //puntaje
         score=savedInstanceState.getInt("score");
+        int tiempo = Integer.parseInt(savedInstanceState.getString("time").substring(1,3))*1000;
+        timer = new CountDownTimerWithPause(tiempo, 1000, true) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                String Seg = String.format("%02d",
+                        TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+                System.out.println(Seg);
+                ValTiempo.setText(" "+Seg+" seg.");
+            }
+
+            @Override
+            public void onFinish() {
+                topButton.setVisibility(View.INVISIBLE);
+                bottomButton.setVisibility(View.INVISIBLE);
+                incorrectButton.setVisibility(View.INVISIBLE);
+                correctButton.setVisibility(View.INVISIBLE);
+                sonidoFinal.start();
+                ValTiempo.setText("- -");
+                ValTiempo.setTextColor(Color.RED);
+                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setTitle("Juego Terminado")
+                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                        .setCancelable(false)
+                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                timer.cancel();
+                                MainActivity.this.finish();
+                            }
+                        })
+                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int which) {
+                                score = 0;
+                                ValPuntaje.setText(" "+score+" pts.");
+                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                topButton.setVisibility(View.VISIBLE);
+                                bottomButton.setVisibility(View.VISIBLE);
+                                incorrectButton.setVisibility(View.VISIBLE);
+                                correctButton.setVisibility(View.VISIBLE);
+                                //renovar tarjeta y aquellos que usan sus atributos
+                                target= new TargetMatch();
+                                topButton.setText(target.question);
+                                bottomButton.setText(target.answer);
+                                topButton.setBackgroundColor(target.color1);
+                                bottomButton.setBackgroundColor(target.color2);
+                                saveTopColor=target.color1;
+                                saveBottomColor=target.color2;
+                                RespuestaCorrecta=target.correct;
+                                timer = new CountDownTimerWithPause(59999, 1000, true) {
+                                    @Override
+                                    public void onTick(long millisUntilFinished) {
+                                        String Seg = String.format("%02d",
+                                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+                                        System.out.println(Seg);
+                                        ValTiempo.setText(" "+Seg+" seg.");
+                                    }
+
+                                    @Override
+                                    public void onFinish() {
+                                        topButton.setVisibility(View.INVISIBLE);
+                                        bottomButton.setVisibility(View.INVISIBLE);
+                                        incorrectButton.setVisibility(View.INVISIBLE);
+                                        correctButton.setVisibility(View.INVISIBLE);
+                                        sonidoFinal.start();
+                                        ValTiempo.setText("- -");
+                                        ValTiempo.setTextColor(Color.RED);
+                                        new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                                                .setIcon(android.R.drawable.ic_dialog_alert)
+                                                .setTitle("Juego Terminado")
+                                                .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                                                .setCancelable(false)
+                                                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int id) {
+                                                        timer.cancel();
+                                                        MainActivity.this.finish();
+                                                    }
+                                                })
+                                                .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        score = 0;
+                                                        ValPuntaje.setText(" "+score+" pts.");
+                                                        ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                                        ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                                        topButton.setVisibility(View.VISIBLE);
+                                                        bottomButton.setVisibility(View.VISIBLE);
+                                                        incorrectButton.setVisibility(View.VISIBLE);
+                                                        correctButton.setVisibility(View.VISIBLE);
+                                                        //renovar tarjeta y aquellos que usan sus atributos
+                                                        target= new TargetMatch();
+                                                        topButton.setText(target.question);
+                                                        bottomButton.setText(target.answer);
+                                                        topButton.setBackgroundColor(target.color1);
+                                                        bottomButton.setBackgroundColor(target.color2);
+                                                        saveTopColor=target.color1;
+                                                        saveBottomColor=target.color2;
+                                                        RespuestaCorrecta=target.correct;
+
+                                                        timer.create();
+                                                    }
+                                                })
+                                                .show();
+                                    }
+                                };
+                                timer.create();
+                            }
+                        })
+                        .show();
+            }
+        };
+        timer.create();
+
     }
 
     @Override
@@ -315,7 +490,7 @@ public class MainActivity extends ActionBarActivity {
                             saveTopColor=target.color1;
                             saveBottomColor=target.color2;
                             RespuestaCorrecta=target.correct;
-                            timer.start();
+                            timer.resume();
                             }
                     })
                     .show();
@@ -325,6 +500,7 @@ public class MainActivity extends ActionBarActivity {
     //DialogAlert para pausa/confirmar salida del juego. Para mejorarlo, usar DialogFragment
     @Override
     public void onBackPressed() {
+        timer.pause();
         new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                 .setIcon(android.R.drawable.ic_dialog_alert)
                 .setTitle("Juego Pausado")
@@ -339,6 +515,7 @@ public class MainActivity extends ActionBarActivity {
                 .setNegativeButton("Continuar", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        timer.resume();
                     }
                 })
                 .show();

@@ -2,9 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Proyecto Match &amp; Learn.iml" filepath="$PROJECT_DIR$/Proyecto Match &amp; Learn.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/match.and.learn.iml" filepath="$PROJECT_DIR$/match.and.learn.iml" />
     </modules>
   </component>
 </project>
-
