@@ -102,6 +102,7 @@ public class MainActivity extends Activity{
                 sonidoFinal.start();
                 ValTiempo.setText("- -");
                 ValTiempo.setTextColor(Color.RED);
+                ValPuntaje.setText("- -");
                 SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                 int oldScore = prefs.getInt("maxscore", 0);
                 if(score > oldScore ) {
@@ -110,18 +111,18 @@ public class MainActivity extends Activity{
                     edit.commit();
 
                     new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(android.R.drawable.ic_menu_myplaces)
                             .setTitle("Juego Terminado")
-                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora. ¿Quieres jugar de nuevo?")
                             .setCancelable(false)
-                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No, salir", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     timer.cancel();
                                     MainActivity.this.finish();
                                 }
                             })
-                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Si, comenzar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     score = 0;
                                     ValPuntaje.setText(" " + score);
@@ -147,7 +148,7 @@ public class MainActivity extends Activity{
                 }
                 else{
                     new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(android.R.drawable.ic_menu_myplaces)
                             .setTitle("Juego Terminado")
                             .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
                             .setCancelable(false)
@@ -313,6 +314,7 @@ public class MainActivity extends Activity{
                 correctButton.setVisibility(View.INVISIBLE);
                 sonidoFinal.start();
                 ValTiempo.setText("- -");
+                ValPuntaje.setText("- -");
                 ValTiempo.setTextColor(Color.RED);
                 SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                 int oldScore = prefs.getInt("maxscore", 0);
@@ -322,18 +324,18 @@ public class MainActivity extends Activity{
                     edit.commit();
 
                     new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(android.R.drawable.ic_menu_myplaces)
                             .setTitle("Juego Terminado")
-                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora. ¿Quieres jugar de nuevo?")
                             .setCancelable(false)
-                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                            .setNegativeButton("No, salir", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int id) {
                                     timer.cancel();
                                     MainActivity.this.finish();
                                 }
                             })
-                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                            .setPositiveButton("Si, comenzar", new DialogInterface.OnClickListener() {
                                 public void onClick(DialogInterface dialog, int which) {
                                     score = 0;
                                     ValPuntaje.setText(" " + score);
@@ -369,6 +371,7 @@ public class MainActivity extends Activity{
                                             correctButton.setVisibility(View.INVISIBLE);
                                             sonidoFinal.start();
                                             ValTiempo.setText("- -");
+                                            ValPuntaje.setText("- -");
                                             ValTiempo.setTextColor(Color.RED);
                                             SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                                             int oldScore = prefs.getInt("maxscore", 0);
@@ -378,18 +381,18 @@ public class MainActivity extends Activity{
                                                 edit.commit();
 
                                                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setIcon(android.R.drawable.ic_menu_myplaces)
                                                         .setTitle("Juego Terminado")
-                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora. ¿Quieres jugar de nuevo?")
                                                         .setCancelable(false)
-                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                        .setNegativeButton("No, salir", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 timer.cancel();
                                                                 MainActivity.this.finish();
                                                             }
                                                         })
-                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                        .setPositiveButton("Si, comenzar", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 score = 0;
                                                                 ValPuntaje.setText(" " + score);
@@ -414,7 +417,7 @@ public class MainActivity extends Activity{
                                                         .show();
                                             } else {
                                                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setIcon(android.R.drawable.ic_menu_myplaces)
                                                         .setTitle("Juego Terminado")
                                                         .setMessage("Lograste un puntaje de " + score + " puntos. El máximo puntaje es de " + prefs.getInt("maxscore", 0) + ". ¡A seguir jugando!")
                                                         .setCancelable(false)
@@ -458,7 +461,7 @@ public class MainActivity extends Activity{
                 }
                 else{
                     new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setIcon(android.R.drawable.ic_menu_myplaces)
                             .setTitle("Juego Terminado")
                             .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
                             .setCancelable(false)
@@ -505,6 +508,7 @@ public class MainActivity extends Activity{
                                             correctButton.setVisibility(View.INVISIBLE);
                                             sonidoFinal.start();
                                             ValTiempo.setText("- -");
+                                            ValPuntaje.setText("- -");
                                             ValTiempo.setTextColor(Color.RED);
                                             SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                                             int oldScore = prefs.getInt("maxscore", 0);
@@ -514,18 +518,18 @@ public class MainActivity extends Activity{
                                                 edit.commit();
 
                                                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setIcon(android.R.drawable.ic_menu_myplaces)
                                                         .setTitle("Juego Terminado")
-                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora. ¿Quieres jugar de nuevo?")
                                                         .setCancelable(false)
-                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                        .setNegativeButton("No, salir", new DialogInterface.OnClickListener() {
                                                             @Override
                                                             public void onClick(DialogInterface dialog, int id) {
                                                                 timer.cancel();
                                                                 MainActivity.this.finish();
                                                             }
                                                         })
-                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                        .setPositiveButton("Si, cgomenzar", new DialogInterface.OnClickListener() {
                                                             public void onClick(DialogInterface dialog, int which) {
                                                                 score = 0;
                                                                 ValPuntaje.setText(" " + score);
@@ -551,7 +555,7 @@ public class MainActivity extends Activity{
                                             }
                                             else{
                                                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setIcon(android.R.drawable.ic_menu_myplaces)
                                                         .setTitle("Juego Terminado")
                                                         .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
                                                         .setCancelable(false)
@@ -636,11 +640,11 @@ public class MainActivity extends Activity{
             this.question = dividendo+"\u00F7"+divisor; // "\u00F7" es el simbolo clasico de division (Unicode value)
             int cuociente, resto;
             double random = Math.random();
-            if(random<=0.8 && random >=0.2){
+            if(random<=0.75 && random >=0.25){
                 cuociente = (int)dividendo/divisor;
                 resto = dividendo-divisor*cuociente;
             }
-            else if(random > 0.8){
+            else if(random > 0.75){
                 cuociente = dividendo/(divisor+(int)(Math.random()*(dividendo-divisor-1)+1));
                 resto = (int)(Math.random()*(divisor-1));
             }
