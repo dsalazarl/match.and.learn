@@ -104,46 +104,84 @@ public class MainActivity extends Activity{
                 ValTiempo.setTextColor(Color.RED);
                 SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                 int oldScore = prefs.getInt("maxscore", 0);
-                if(score > oldScore ){
+                if(score > oldScore ) {
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putInt("maxscore", score);
                     edit.commit();
+
+                    new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Juego Terminado")
+                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                            .setCancelable(false)
+                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    timer.cancel();
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    score = 0;
+                                    ValPuntaje.setText(" " + score);
+                                    ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                    ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                    topButton.setVisibility(View.VISIBLE);
+                                    bottomButton.setVisibility(View.VISIBLE);
+                                    incorrectButton.setVisibility(View.VISIBLE);
+                                    correctButton.setVisibility(View.VISIBLE);
+                                    //renovar tarjeta y aquellos que usan sus atributos
+                                    target = new TargetMatch();
+                                    topButton.setText(target.question);
+                                    bottomButton.setText(target.answer);
+                                    topButton.setBackgroundColor(target.color1);
+                                    bottomButton.setBackgroundColor(target.color2);
+                                    saveTopColor = target.color1;
+                                    saveBottomColor = target.color2;
+                                    RespuestaCorrecta = target.correct;
+                                    timer.create();
+                                }
+                            })
+                            .show();
                 }
-                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Juego Terminado")
-                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
-                        .setCancelable(false)
-                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                timer.cancel();
-                                MainActivity.this.finish();
-                            }
-                        })
-                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                score = 0;
-                                ValPuntaje.setText(" "+score);
-                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
-                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
-                                topButton.setVisibility(View.VISIBLE);
-                                bottomButton.setVisibility(View.VISIBLE);
-                                incorrectButton.setVisibility(View.VISIBLE);
-                                correctButton.setVisibility(View.VISIBLE);
-                                //renovar tarjeta y aquellos que usan sus atributos
-                                target= new TargetMatch();
-                                topButton.setText(target.question);
-                                bottomButton.setText(target.answer);
-                                topButton.setBackgroundColor(target.color1);
-                                bottomButton.setBackgroundColor(target.color2);
-                                saveTopColor=target.color1;
-                                saveBottomColor=target.color2;
-                                RespuestaCorrecta=target.correct;
-                                timer.create();
-                            }
-                        })
-                        .show();
+                else{
+                    new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Juego Terminado")
+                            .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
+                            .setCancelable(false)
+                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    timer.cancel();
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    score = 0;
+                                    ValPuntaje.setText(" "+score);
+                                    ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                    ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                    topButton.setVisibility(View.VISIBLE);
+                                    bottomButton.setVisibility(View.VISIBLE);
+                                    incorrectButton.setVisibility(View.VISIBLE);
+                                    correctButton.setVisibility(View.VISIBLE);
+                                    //renovar tarjeta y aquellos que usan sus atributos
+                                    target= new TargetMatch();
+                                    topButton.setText(target.question);
+                                    bottomButton.setText(target.answer);
+                                    topButton.setBackgroundColor(target.color1);
+                                    bottomButton.setBackgroundColor(target.color2);
+                                    saveTopColor=target.color1;
+                                    saveBottomColor=target.color2;
+                                    RespuestaCorrecta=target.correct;
+                                    timer.create();
+                                }
+                            })
+                            .show();
+                }
             }
         };
 
@@ -278,109 +316,283 @@ public class MainActivity extends Activity{
                 ValTiempo.setTextColor(Color.RED);
                 SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
                 int oldScore = prefs.getInt("maxscore", 0);
-                if(score > oldScore ){
+                if(score > oldScore ) {
                     SharedPreferences.Editor edit = prefs.edit();
                     edit.putInt("maxscore", score);
                     edit.commit();
-                }
-                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                        .setIcon(android.R.drawable.ic_dialog_alert)
-                        .setTitle("Juego Terminado")
-                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
-                        .setCancelable(false)
-                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int id) {
-                                timer.cancel();
-                                MainActivity.this.finish();
-                            }
-                        })
-                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int which) {
-                                score = 0;
-                                ValPuntaje.setText(" "+score);
-                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
-                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
-                                topButton.setVisibility(View.VISIBLE);
-                                bottomButton.setVisibility(View.VISIBLE);
-                                incorrectButton.setVisibility(View.VISIBLE);
-                                correctButton.setVisibility(View.VISIBLE);
-                                //renovar tarjeta y aquellos que usan sus atributos
-                                target= new TargetMatch();
-                                topButton.setText(target.question);
-                                bottomButton.setText(target.answer);
-                                topButton.setBackgroundColor(target.color1);
-                                bottomButton.setBackgroundColor(target.color2);
-                                saveTopColor=target.color1;
-                                saveBottomColor=target.color2;
-                                RespuestaCorrecta=target.correct;
-                                timer = new CountDownTimerWithPause(59999, 1000, true) {
-                                    @Override
-                                    public void onTick(long millisUntilFinished) {
-                                        String Seg = String.format("%02d",
-                                                TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
-                                        System.out.println(Seg);
-                                        ValTiempo.setText(" "+Seg+" seg");
-                                    }
 
-                                    @Override
-                                    public void onFinish() {
-                                        topButton.setVisibility(View.INVISIBLE);
-                                        bottomButton.setVisibility(View.INVISIBLE);
-                                        incorrectButton.setVisibility(View.INVISIBLE);
-                                        correctButton.setVisibility(View.INVISIBLE);
-                                        sonidoFinal.start();
-                                        ValTiempo.setText("- -");
-                                        ValTiempo.setTextColor(Color.RED);
-                                        SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
-                                        int oldScore = prefs.getInt("maxscore", 0);
-                                        if(score > oldScore ){
-                                            SharedPreferences.Editor edit = prefs.edit();
-                                            edit.putInt("maxscore", score);
-                                            edit.commit();
+                    new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Juego Terminado")
+                            .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                            .setCancelable(false)
+                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    timer.cancel();
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    score = 0;
+                                    ValPuntaje.setText(" " + score);
+                                    ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                    ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                    topButton.setVisibility(View.VISIBLE);
+                                    bottomButton.setVisibility(View.VISIBLE);
+                                    incorrectButton.setVisibility(View.VISIBLE);
+                                    correctButton.setVisibility(View.VISIBLE);
+                                    //renovar tarjeta y aquellos que usan sus atributos
+                                    target = new TargetMatch();
+                                    topButton.setText(target.question);
+                                    bottomButton.setText(target.answer);
+                                    topButton.setBackgroundColor(target.color1);
+                                    bottomButton.setBackgroundColor(target.color2);
+                                    saveTopColor = target.color1;
+                                    saveBottomColor = target.color2;
+                                    RespuestaCorrecta = target.correct;
+                                    timer = new CountDownTimerWithPause(59999, 1000, true) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                            String Seg = String.format("%02d",
+                                                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+                                            System.out.println(Seg);
+                                            ValTiempo.setText(" " + Seg + " seg");
                                         }
-                                        new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                                                .setIcon(android.R.drawable.ic_dialog_alert)
-                                                .setTitle("Juego Terminado")
-                                                .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
-                                                .setCancelable(false)
-                                                .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialog, int id) {
-                                                        timer.cancel();
-                                                        MainActivity.this.finish();
-                                                    }
-                                                })
-                                                .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
-                                                    public void onClick(DialogInterface dialog, int which) {
-                                                        score = 0;
-                                                        ValPuntaje.setText(" "+score);
-                                                        ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
-                                                        ValTiempo.setTextColor(Color.parseColor("#ff000000"));
-                                                        topButton.setVisibility(View.VISIBLE);
-                                                        bottomButton.setVisibility(View.VISIBLE);
-                                                        incorrectButton.setVisibility(View.VISIBLE);
-                                                        correctButton.setVisibility(View.VISIBLE);
-                                                        //renovar tarjeta y aquellos que usan sus atributos
-                                                        target= new TargetMatch();
-                                                        topButton.setText(target.question);
-                                                        bottomButton.setText(target.answer);
-                                                        topButton.setBackgroundColor(target.color1);
-                                                        bottomButton.setBackgroundColor(target.color2);
-                                                        saveTopColor=target.color1;
-                                                        saveBottomColor=target.color2;
-                                                        RespuestaCorrecta=target.correct;
 
-                                                        timer.create();
-                                                    }
-                                                })
-                                                .show();
-                                    }
-                                };
-                                timer.create();
-                            }
-                        })
-                        .show();
+                                        @Override
+                                        public void onFinish() {
+                                            topButton.setVisibility(View.INVISIBLE);
+                                            bottomButton.setVisibility(View.INVISIBLE);
+                                            incorrectButton.setVisibility(View.INVISIBLE);
+                                            correctButton.setVisibility(View.INVISIBLE);
+                                            sonidoFinal.start();
+                                            ValTiempo.setText("- -");
+                                            ValTiempo.setTextColor(Color.RED);
+                                            SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+                                            int oldScore = prefs.getInt("maxscore", 0);
+                                            if (score > oldScore) {
+                                                SharedPreferences.Editor edit = prefs.edit();
+                                                edit.putInt("maxscore", score);
+                                                edit.commit();
+
+                                                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Juego Terminado")
+                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                                                        .setCancelable(false)
+                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                timer.cancel();
+                                                                MainActivity.this.finish();
+                                                            }
+                                                        })
+                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                score = 0;
+                                                                ValPuntaje.setText(" " + score);
+                                                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                                                topButton.setVisibility(View.VISIBLE);
+                                                                bottomButton.setVisibility(View.VISIBLE);
+                                                                incorrectButton.setVisibility(View.VISIBLE);
+                                                                correctButton.setVisibility(View.VISIBLE);
+                                                                //renovar tarjeta y aquellos que usan sus atributos
+                                                                target = new TargetMatch();
+                                                                topButton.setText(target.question);
+                                                                bottomButton.setText(target.answer);
+                                                                topButton.setBackgroundColor(target.color1);
+                                                                bottomButton.setBackgroundColor(target.color2);
+                                                                saveTopColor = target.color1;
+                                                                saveBottomColor = target.color2;
+                                                                RespuestaCorrecta = target.correct;
+                                                                timer.create();
+                                                            }
+                                                        })
+                                                        .show();
+                                            } else {
+                                                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Juego Terminado")
+                                                        .setMessage("Lograste un puntaje de " + score + " puntos. El máximo puntaje es de " + prefs.getInt("maxscore", 0) + ". ¡A seguir jugando!")
+                                                        .setCancelable(false)
+                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                timer.cancel();
+                                                                MainActivity.this.finish();
+                                                            }
+                                                        })
+                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                score = 0;
+                                                                ValPuntaje.setText(" " + score);
+                                                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                                                topButton.setVisibility(View.VISIBLE);
+                                                                bottomButton.setVisibility(View.VISIBLE);
+                                                                incorrectButton.setVisibility(View.VISIBLE);
+                                                                correctButton.setVisibility(View.VISIBLE);
+                                                                //renovar tarjeta y aquellos que usan sus atributos
+                                                                target = new TargetMatch();
+                                                                topButton.setText(target.question);
+                                                                bottomButton.setText(target.answer);
+                                                                topButton.setBackgroundColor(target.color1);
+                                                                bottomButton.setBackgroundColor(target.color2);
+                                                                saveTopColor = target.color1;
+                                                                saveBottomColor = target.color2;
+                                                                RespuestaCorrecta = target.correct;
+                                                                timer.create();
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
+                                        }
+                                    };
+                                    timer.create();
+                                }
+                            })
+                            .show();
+                }
+                else{
+                    new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                            .setIcon(android.R.drawable.ic_dialog_alert)
+                            .setTitle("Juego Terminado")
+                            .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
+                            .setCancelable(false)
+                            .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int id) {
+                                    timer.cancel();
+                                    MainActivity.this.finish();
+                                }
+                            })
+                            .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int which) {
+                                    score = 0;
+                                    ValPuntaje.setText(" "+score);
+                                    ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                    ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                    topButton.setVisibility(View.VISIBLE);
+                                    bottomButton.setVisibility(View.VISIBLE);
+                                    incorrectButton.setVisibility(View.VISIBLE);
+                                    correctButton.setVisibility(View.VISIBLE);
+                                    //renovar tarjeta y aquellos que usan sus atributos
+                                    target= new TargetMatch();
+                                    topButton.setText(target.question);
+                                    bottomButton.setText(target.answer);
+                                    topButton.setBackgroundColor(target.color1);
+                                    bottomButton.setBackgroundColor(target.color2);
+                                    saveTopColor=target.color1;
+                                    saveBottomColor=target.color2;
+                                    RespuestaCorrecta=target.correct;
+                                    timer = new CountDownTimerWithPause(59999, 1000, true) {
+                                        @Override
+                                        public void onTick(long millisUntilFinished) {
+                                            String Seg = String.format("%02d",
+                                                    TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
+                                            System.out.println(Seg);
+                                            ValTiempo.setText(" "+Seg+" seg");
+                                        }
+
+                                        @Override
+                                        public void onFinish() {
+                                            topButton.setVisibility(View.INVISIBLE);
+                                            bottomButton.setVisibility(View.INVISIBLE);
+                                            incorrectButton.setVisibility(View.INVISIBLE);
+                                            correctButton.setVisibility(View.INVISIBLE);
+                                            sonidoFinal.start();
+                                            ValTiempo.setText("- -");
+                                            ValTiempo.setTextColor(Color.RED);
+                                            SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+                                            int oldScore = prefs.getInt("maxscore", 0);
+                                            if(score > oldScore ) {
+                                                SharedPreferences.Editor edit = prefs.edit();
+                                                edit.putInt("maxscore", score);
+                                                edit.commit();
+
+                                                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Juego Terminado")
+                                                        .setMessage("¡Felicitaciones obtuviste " + score + " puntos convirtiéndote en el máximo puntaje! ... hasta ahora")
+                                                        .setCancelable(false)
+                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                timer.cancel();
+                                                                MainActivity.this.finish();
+                                                            }
+                                                        })
+                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                score = 0;
+                                                                ValPuntaje.setText(" " + score);
+                                                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                                                topButton.setVisibility(View.VISIBLE);
+                                                                bottomButton.setVisibility(View.VISIBLE);
+                                                                incorrectButton.setVisibility(View.VISIBLE);
+                                                                correctButton.setVisibility(View.VISIBLE);
+                                                                //renovar tarjeta y aquellos que usan sus atributos
+                                                                target = new TargetMatch();
+                                                                topButton.setText(target.question);
+                                                                bottomButton.setText(target.answer);
+                                                                topButton.setBackgroundColor(target.color1);
+                                                                bottomButton.setBackgroundColor(target.color2);
+                                                                saveTopColor = target.color1;
+                                                                saveBottomColor = target.color2;
+                                                                RespuestaCorrecta = target.correct;
+                                                                timer.create();
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
+                                            else{
+                                                new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
+                                                        .setIcon(android.R.drawable.ic_dialog_alert)
+                                                        .setTitle("Juego Terminado")
+                                                        .setMessage("Lograste un puntaje de "+score+" puntos. El máximo puntaje es de "+prefs.getInt("maxscore",0) +". ¡A seguir jugando!")
+                                                        .setCancelable(false)
+                                                        .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
+                                                            @Override
+                                                            public void onClick(DialogInterface dialog, int id) {
+                                                                timer.cancel();
+                                                                MainActivity.this.finish();
+                                                            }
+                                                        })
+                                                        .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                                            public void onClick(DialogInterface dialog, int which) {
+                                                                score = 0;
+                                                                ValPuntaje.setText(" "+score);
+                                                                ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
+                                                                ValTiempo.setTextColor(Color.parseColor("#ff000000"));
+                                                                topButton.setVisibility(View.VISIBLE);
+                                                                bottomButton.setVisibility(View.VISIBLE);
+                                                                incorrectButton.setVisibility(View.VISIBLE);
+                                                                correctButton.setVisibility(View.VISIBLE);
+                                                                //renovar tarjeta y aquellos que usan sus atributos
+                                                                target= new TargetMatch();
+                                                                topButton.setText(target.question);
+                                                                bottomButton.setText(target.answer);
+                                                                topButton.setBackgroundColor(target.color1);
+                                                                bottomButton.setBackgroundColor(target.color2);
+                                                                saveTopColor=target.color1;
+                                                                saveBottomColor=target.color2;
+                                                                RespuestaCorrecta=target.correct;
+                                                                timer.create();
+                                                            }
+                                                        })
+                                                        .show();
+                                            }
+                                        }
+                                    };
+                                    timer.create();
+                                }
+                            })
+                            .show();
+                }
             }
         };
         timer.create();
@@ -425,12 +637,12 @@ public class MainActivity extends Activity{
             int cuociente, resto;
             double random = Math.random();
             if(random<=0.8 && random >=0.2){
-                cuociente = dividendo/divisor;
+                cuociente = (int)dividendo/divisor;
                 resto = dividendo-divisor*cuociente;
             }
             else if(random > 0.8){
                 cuociente = dividendo/(divisor+(int)(Math.random()*(dividendo-divisor-1)+1));
-                resto = (int) (Math.random()*(divisor-1));
+                resto = (int)(Math.random()*(divisor-1));
             }
             else{
                 cuociente = dividendo/(divisor-(int)(Math.random()*divisor-1));
