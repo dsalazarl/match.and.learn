@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -101,10 +102,17 @@ public class MainActivity extends Activity{
                 sonidoFinal.start();
                 ValTiempo.setText("- -");
                 ValTiempo.setTextColor(Color.RED);
+                SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+                int oldScore = prefs.getInt("maxscore", 0);
+                if(score > oldScore ){
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putInt("maxscore", score);
+                    edit.commit();
+                }
                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Juego Terminado")
-                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
                         .setCancelable(false)
                         .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                             @Override
@@ -268,10 +276,17 @@ public class MainActivity extends Activity{
                 sonidoFinal.start();
                 ValTiempo.setText("- -");
                 ValTiempo.setTextColor(Color.RED);
+                SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+                int oldScore = prefs.getInt("maxscore", 0);
+                if(score > oldScore ){
+                    SharedPreferences.Editor edit = prefs.edit();
+                    edit.putInt("maxscore", score);
+                    edit.commit();
+                }
                 new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                         .setIcon(android.R.drawable.ic_dialog_alert)
                         .setTitle("Juego Terminado")
-                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                        .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
                         .setCancelable(false)
                         .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                             @Override
@@ -317,10 +332,17 @@ public class MainActivity extends Activity{
                                         sonidoFinal.start();
                                         ValTiempo.setText("- -");
                                         ValTiempo.setTextColor(Color.RED);
+                                        SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+                                        int oldScore = prefs.getInt("maxscore", 0);
+                                        if(score > oldScore ){
+                                            SharedPreferences.Editor edit = prefs.edit();
+                                            edit.putInt("maxscore", score);
+                                            edit.commit();
+                                        }
                                         new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                                                 .setIcon(android.R.drawable.ic_dialog_alert)
                                                 .setTitle("Juego Terminado")
-                                                .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                                                .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
                                                 .setCancelable(false)
                                                 .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                                                     @Override
@@ -469,10 +491,17 @@ public class MainActivity extends Activity{
             sonidoFinal.start();
             ValTiempo.setText("- -");
             ValTiempo.setTextColor(Color.RED);
+            SharedPreferences prefs = context.getSharedPreferences("myPrefsKey", Context.MODE_PRIVATE);
+            int oldScore = prefs.getInt("maxscore", 0);
+            if(score > oldScore ){
+                SharedPreferences.Editor edit = prefs.edit();
+                edit.putInt("maxscore", score);
+                edit.commit();
+            }
             new AlertDialog.Builder(context, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Juego Terminado")
-                    .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos. ¿Deseas volver a jugar?")
+                    .setMessage("¡Felicitaciones! Lograste un puntaje de "+score+" puntos y el maximo fue "+prefs.getInt("maxscore",0) +". ¿Deseas volver a jugar?")
                     .setCancelable(false)
                     .setNegativeButton("Salir", new DialogInterface.OnClickListener() {
                         @Override
