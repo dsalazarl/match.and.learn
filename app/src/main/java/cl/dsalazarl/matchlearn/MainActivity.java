@@ -1,8 +1,10 @@
 package cl.dsalazarl.matchlearn;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.media.MediaPlayer;
@@ -12,6 +14,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -19,8 +23,8 @@ import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 
-public class MainActivity extends ActionBarActivity {
-
+//public class MainActivity extends ActionBarActivity {
+public class MainActivity extends Activity{
     Button topButton, bottomButton, correctButton, incorrectButton;
     TargetMatch target;
     TextView StrPuntaje;
@@ -41,6 +45,12 @@ public class MainActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //en .xml bajo la primera linea?
+        //tools:context=".MainActivity"
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_main);
 
         topButton = (Button) findViewById(R.id.btn_superior);
@@ -71,7 +81,7 @@ public class MainActivity extends ActionBarActivity {
         topButton.setBackgroundColor(target.color1);
         bottomButton.setBackgroundColor(target.color2);
 
-        ValPuntaje.setText(" "+score+" pts.");
+        ValPuntaje.setText(" "+score);
         ValTiempo.setText(" 1 minuto");
         timer = new CountDownTimerWithPause(59999, 1000, true) {
             @Override
@@ -79,7 +89,7 @@ public class MainActivity extends ActionBarActivity {
                 String Seg = String.format("%02d",
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
                 System.out.println(Seg);
-                ValTiempo.setText(" "+Seg+" seg.");
+                ValTiempo.setText(" "+Seg+" seg");
             }
 
             @Override
@@ -106,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
                         .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 score = 0;
-                                ValPuntaje.setText(" "+score+" pts.");
+                                ValPuntaje.setText(" "+score);
                                 ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
                                 ValTiempo.setTextColor(Color.parseColor("#ff000000"));
                                 topButton.setVisibility(View.VISIBLE);
@@ -166,7 +176,7 @@ public class MainActivity extends ActionBarActivity {
             score-=5;
             ValPuntaje.setTextColor(Color.RED);
         }
-        ValPuntaje.setText(" "+score+" pts.");
+        ValPuntaje.setText(" "+score);
         //renovar tarjeta y aquellos que usan sus atributos
         target= new TargetMatch();
         topButton.setText(target.question);
@@ -188,7 +198,7 @@ public class MainActivity extends ActionBarActivity {
             score-=5;
             ValPuntaje.setTextColor(Color.RED);
         }
-        ValPuntaje.setText(" "+score+" pts.");
+        ValPuntaje.setText(" "+score);
         //renovar tarjeta y aquellos que usan sus atributos
         target= new TargetMatch();
         topButton.setText(target.question);
@@ -246,7 +256,7 @@ public class MainActivity extends ActionBarActivity {
                 String Seg = String.format("%02d",
                         TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
                 System.out.println(Seg);
-                ValTiempo.setText(" "+Seg+" seg.");
+                ValTiempo.setText(" "+Seg+" seg");
             }
 
             @Override
@@ -273,7 +283,7 @@ public class MainActivity extends ActionBarActivity {
                         .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 score = 0;
-                                ValPuntaje.setText(" "+score+" pts.");
+                                ValPuntaje.setText(" "+score);
                                 ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
                                 ValTiempo.setTextColor(Color.parseColor("#ff000000"));
                                 topButton.setVisibility(View.VISIBLE);
@@ -295,7 +305,7 @@ public class MainActivity extends ActionBarActivity {
                                         String Seg = String.format("%02d",
                                                 TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
                                         System.out.println(Seg);
-                                        ValTiempo.setText(" "+Seg+" seg.");
+                                        ValTiempo.setText(" "+Seg+" seg");
                                     }
 
                                     @Override
@@ -322,7 +332,7 @@ public class MainActivity extends ActionBarActivity {
                                                 .setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
                                                     public void onClick(DialogInterface dialog, int which) {
                                                         score = 0;
-                                                        ValPuntaje.setText(" "+score+" pts.");
+                                                        ValPuntaje.setText(" "+score);
                                                         ValPuntaje.setTextColor(Color.parseColor("#ff000000"));
                                                         ValTiempo.setTextColor(Color.parseColor("#ff000000"));
                                                         topButton.setVisibility(View.VISIBLE);
@@ -447,7 +457,7 @@ public class MainActivity extends ActionBarActivity {
             String Seg = String.format("%02d",
                     TimeUnit.MILLISECONDS.toSeconds(millisUntilFinished));
             System.out.println(Seg);
-            ValTiempo.setText(" "+Seg+" seg.");
+            ValTiempo.setText(" "+Seg+" seg");
         }
 
         @Override
@@ -497,22 +507,68 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    public String consejo(){
+        Random random = new Random();
+        int nConsejo = random.nextInt(10);
+        String nuestroConsejo = "";
+
+        switch (nConsejo) {
+            case 1:
+                nuestroConsejo = "Tener la conciencia limpia es síntoma de mala memoria.";
+                break;
+            case 2:
+                nuestroConsejo = " ¿Por qué temblará la gelatina? ¿Será que sabe lo que le espera?";
+                break;
+            case 4:
+                nuestroConsejo = "El mejor amigo del perro es otro perro.";
+                break;
+            case 5:
+                nuestroConsejo = "El fabricante de ventiladores vive del aire.";
+                break;
+            case 6:
+                nuestroConsejo = "Los mosquitos mueren entre aplausos.";
+                break;
+            case 7:
+                nuestroConsejo = "Arreglar los problemas económicos es fácil, lo único que se necesita es dinero.";
+                break;
+            case 8:
+                nuestroConsejo = "El eco siempre dice la última palabra.";
+                break;
+            case 9:
+                nuestroConsejo = "¿Cuál es el animal que después de muerto da muchas vueltas? El pollo asado.";
+                break;
+            case 10:
+                nuestroConsejo = "Lo importante no es ganar, sino hacer perder al otro.";
+                break;
+            default:
+                nuestroConsejo = "El diabético no puede ir de luna de miel.";
+                break;
+        }
+
+        return nuestroConsejo;
+    }
+    final Class<MainActiviti> mein = MainActiviti.class;
     //DialogAlert para pausa/confirmar salida del juego. Para mejorarlo, usar DialogFragment
     @Override
     public void onBackPressed() {
         timer.pause();
+
+
         new AlertDialog.Builder(this, AlertDialog.THEME_DEVICE_DEFAULT_DARK)
-                .setIcon(android.R.drawable.ic_dialog_alert)
+                //.setIcon(android.R.drawable.ic_dialog_alert)
+                .setIcon(android.R.drawable.ic_media_pause)
                 .setTitle("Juego Pausado")
-                .setMessage("¿Seguro que quieres salir de este asombroso juego?")
+                .setMessage("Recuerda: " + consejo() + "\n\n¿Realmente deseas salir?")
                 .setCancelable(false)
-                .setPositiveButton("Salir", new DialogInterface.OnClickListener() {
+                .setPositiveButton("Sí, pero volveré", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         timer.cancel();
+
                         MainActivity.this.finish();
                     }
+
                 })
-                .setNegativeButton("Continuar", new DialogInterface.OnClickListener() {
+                .setNegativeButton("No, quiero seguir jugando", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         timer.resume();
@@ -520,5 +576,6 @@ public class MainActivity extends ActionBarActivity {
                 })
                 .show();
     }
+
 
 }

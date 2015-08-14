@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/str_inst"
+        android:id="@+id/text_inst"
+        android:layout_gravity="center_horizontal"
+        android:textSize="55sp"
+        android:layout_marginTop="40dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="6dp"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="@string/app_name"
+        android:id="@+id/text_nombre_app"
+        android:textSize="28sp"
+        android:textColor="#ff2800a2"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+
+    <Button
+        android:layout_width="180dp"
+        android:layout_height="wrap_content"
+        android:text="Comenzar"
+        android:id="@+id/btn_comenzar"
+        android:layout_above="@+id/text_nombre_app"
+        android:layout_centerHorizontal="true"
+        android:background="#ff255294"
+        android:layout_marginBottom="30dp"
+        android:onClick="startGame"
+        android:textColor="#ffffff"
+        android:textSize="28sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="7dp"
+        android:id="@+id/imageView"
+        android:background="@android:drawable/ic_menu_compass"
+        android:backgroundTint="#ff255294"
+        android:backgroundTintMode="add"
+        android:layout_below="@+id/text_inst"
+        android:layout_alignLeft="@+id/text_inst"
+        android:layout_alignStart="@+id/text_inst" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Utiliza el botón verde para indicar que la división de arriba corresponde con el resultado de abajo y el botón rojo en caso de que no corresponda"
+        android:id="@+id/textView"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toRightOf="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView"
+        android:textSize="20sp"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="110dp"
+        android:layout_marginRight="7dp"
+        android:id="@+id/imageView2"
+        android:layout_below="@+id/imageView"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:background="@android:drawable/ic_menu_compass"
+        android:backgroundTint="#ff255294"
+        android:backgroundTintMode="add"/>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:layout_marginRight="7dp"
+        android:id="@+id/imageView3"
+        android:layout_below="@+id/imageView2"
+        android:layout_alignLeft="@+id/imageView"
+        android:layout_alignStart="@+id/imageView"
+        android:background="@android:drawable/ic_menu_compass"
+        android:backgroundTint="#ff255294"
+        android:backgroundTintMode="add"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Si aciertas, sumarás 5 puntos y de lo contrario, se te restarán 5 puntos"
+        android:id="@+id/textView2"
+        android:layout_alignTop="@+id/imageView2"
+        android:layout_toRightOf="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView2"
+        android:textSize="20sp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Tienes 60 segundos para hacer el mayor puntaje posible"
+        android:id="@+id/textView3"
+        android:layout_alignTop="@+id/imageView3"
+        android:layout_toRightOf="@+id/imageView3"
+        android:layout_toEndOf="@+id/imageView3"
+        android:textSize="20sp"/>
+</RelativeLayout>

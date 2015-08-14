@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#ffffff"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:text="@string/app_name"
+        android:id="@+id/text_titulo"
+        android:layout_gravity="center_horizontal"
+        android:textSize="55sp"
+        android:layout_marginTop="40dp"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="40dp"
+        android:text="Jugar"
+        android:id="@+id/btn_play"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape2"
+        android:onClick="ToGame"
+        android:layout_below="@+id/text_titulo"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/btn_play"
+        android:layout_centerHorizontal="true"
+
+        android:layout_marginTop="40dp"
+        android:text="Instrucciones"
+        android:id="@+id/btn_info"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/shape2"
+        android:onClick="ToInfo"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text=" The Android Guys"
+        android:id="@+id/text_group"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ff2800a2"
+        android:layout_marginRight="7dp"
+        android:layout_marginBottom="7dp"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/text_group"
+        android:layout_toStartOf="@+id/text_group"
+        android:text="developed by"
+        android:id="@+id/text_develope"
+        android:textColor="#ff255294"
+        android:layout_marginBottom="7dp"/>
+</RelativeLayout>

@@ -3,11 +3,11 @@
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">6dp</dimen>
     <!--Vista en Portrait-->
-    <dimen name="height_btn">225dp</dimen>
+    <dimen name="height_btn">155dp</dimen>
     <dimen name="textSize_btn">60sp</dimen>
-    <dimen name="textSize_barraSup">20sp</dimen>
+    <dimen name="textSize_barraSup">25sp</dimen>
     <!--Vista en Landscape-->
     <dimen name="height_btn_land">140dp</dimen>
     <dimen name="textSize_btn_land">40sp</dimen>
-    <dimen name="textSize_barraSup_land">20sp</dimen>
+    <dimen name="textSize_barraSup_land">25sp</dimen>
 </resources>
